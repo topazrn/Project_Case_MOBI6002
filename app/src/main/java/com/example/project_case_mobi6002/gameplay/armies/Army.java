@@ -13,10 +13,10 @@ public abstract class Army {
     // 1 Archer will kill 0.4 Cavalry, 0.1 Infantry, 0.1 Catapult
     // 1 Catapult will kill 10 Infantry, 3 Cavalry, 2 Archer
     // 1 Category will kill 1 of its own category
-    public static final double[] INFANTRY_POWER = { 1, 0.1, 0.4, 0.3 };
-    public static final double[] CAVALRY_POWER = { 0.4, 1, 0.1, 0.2 };
-    public static final double[] ARCHER_POWER = { 0.1, 0.4, 1, 0.1 };
-    public static final double[] CATAPULT_POWER = { 10, 3, 2, 1 };
+    public static final double[] INFANTRY_KILL_COMPATIBILITY = {1, 0.1, 0.4, 0.3};
+    public static final double[] CAVALRY_KILL_COMPATIBILITY = {0.4, 1, 0.1, 0.2};
+    public static final double[] ARCHER_KILL_COMPATIBILITY = {0.1, 0.4, 1, 0.1};
+    public static final double[] CATAPULT_KILL_COMPATIBILITY = {10, 3, 2, 1};
 
     private int category;
 
