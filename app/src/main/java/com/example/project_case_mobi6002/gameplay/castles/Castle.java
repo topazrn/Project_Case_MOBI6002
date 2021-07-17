@@ -3,25 +3,38 @@ package com.example.project_case_mobi6002.gameplay.castles;
 import com.example.project_case_mobi6002.gameplay.armies.Army;
 import com.example.project_case_mobi6002.gameplay.heroes.Hero;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public abstract class Castle {
-    public static final int STEEL = 0;
-    public static final int HORSE = 1;
-    public static final int WOOD = 2;
-    public static final int STONE = 3;
+    public enum Skin {
+        Steel,
+        Horse,
+        Wood,
+        Stone,
+    }
 
-    public static final double[] SKILL_BOOST = {0.2, 0.2, 0.2, 0.2};
+    public static Map<Skin, Double> SKILL_BOOST;
+    static {
+        Map<Skin, Double> temp = new HashMap<>();
+        temp.put(Skin.Steel, 0.2);
+        temp.put(Skin.Horse, 0.2);
+        temp.put(Skin.Wood, 0.2);
+        temp.put(Skin.Stone, 0.2);
+        SKILL_BOOST = Collections.unmodifiableMap(temp);
+    }
 
-    private int skin;
+    private Skin skin;
     private Vector<Hero> vHero = new Vector<>();
     private Vector<Army> vArmy = new Vector<>();
 
-    public Castle(int skin) {
+    public Castle(Skin skin) {
         this.skin = skin;
     }
 
-    public int getSkin() {
+    public Skin getSkin() {
         return this.skin;
     }
 }
