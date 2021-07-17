@@ -1,0 +1,2 @@
+rootProject.name = "Project_Case_MOBI6002"
+include ':app'
