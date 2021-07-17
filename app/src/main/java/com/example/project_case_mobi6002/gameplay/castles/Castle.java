@@ -27,8 +27,6 @@ public abstract class Castle {
     }
 
     private Skin skin;
-    private Vector<Hero> vHero = new Vector<>();
-    private Vector<Army> vArmy = new Vector<>();
 
     public Castle(Skin skin) {
         this.skin = skin;
