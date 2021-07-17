@@ -8,11 +8,13 @@ import java.util.Vector;
 
 public class Player {
     private final String name;
-    private Vector<Hero> vHero = new Vector<>();
-    private Vector<Army> vArmy = new Vector<>();
+    private final Vector<Hero> vHero;
+    private final Vector<Army> vArmy;
 
-    public Player(String name) {
+    public Player(String name, Vector<Hero> vHero, Vector<Army> vArmy) {
         this.name = name;
+        this.vHero = vHero;
+        this.vArmy = vArmy;
     }
 
     public Player battle(Player castle2) {
