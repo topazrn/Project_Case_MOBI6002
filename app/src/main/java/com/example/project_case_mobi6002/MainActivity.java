@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Player player1 = new Player("Radiant", player1Heroes, player1Armies);
-        player1.render1(activity);
+        player1.renderLeft(activity);
 
         // Player 2 init
         Vector<Hero> player2Heroes = new Vector<>();
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Player player2 = new Player("Dire", player2Heroes, player2Armies);
+        player2.renderRight(activity);
 
         // #endregion
 
