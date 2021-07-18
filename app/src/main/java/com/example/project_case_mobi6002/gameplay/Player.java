@@ -184,6 +184,10 @@ public class Player {
         return armyCountPerCategory;
     }
 
+    public int getArmyCount() {
+        return this.vArmy.size();
+    }
+
     private Map<Army.Category, Integer> getHeroCountPerCategory() {
         Map<Army.Category, Integer> heroCountPerCategory = new HashMap<>();
         for (Hero hero : this.vHero) {
