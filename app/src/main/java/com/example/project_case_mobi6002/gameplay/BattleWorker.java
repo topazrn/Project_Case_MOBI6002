@@ -3,11 +3,9 @@ package com.example.project_case_mobi6002.gameplay;
 import android.app.Activity;
 import android.widget.Toast;
 
-import com.example.project_case_mobi6002.gameplay.castles.Castle;
-
 public class BattleWorker implements Runnable {
-    private final Player player1, player2;
-    private Player winner;
+    private final Player player1;
+    private Player player2;
     private final Activity activity;
 
     public BattleWorker(Activity activity, Player player1, Player player2) {
@@ -18,7 +16,7 @@ public class BattleWorker implements Runnable {
 
     @Override
     public void run() {
-        winner = player1.battle(player2);
-        Toast.makeText(activity.getApplicationContext(), "The Winner is... " + winner.getName() + "!!", Toast.LENGTH_LONG).show();
+        this.player2 = this.player1.battle(this.player2);
+//        Toast.makeText(activity.getApplicationContext(), "The Winner is... " + winner.getName() + "!!", Toast.LENGTH_LONG).show();
     }
 }

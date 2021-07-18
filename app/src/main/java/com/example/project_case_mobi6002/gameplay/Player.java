@@ -27,52 +27,90 @@ public class Player {
         // Player 1 attacks Player 2
 
         // Get Player 1 stats as attacker
-        Map<Army.Category, Integer> player1AttackerCount = new HashMap<>();
-        for (Army army : this.vArmy) {
-            final int oldValue = coalesce(player1AttackerCount.get(army.getCategory()));
-            player1AttackerCount.put(army.getCategory(), oldValue + 1);
-        }
-
-        Map<Hero.Category, Double> player1Boost = new HashMap<>();
-        for (Hero hero : this.vHero) {
-            final double oldValue = coalesce(player1Boost.get(hero.getCategory()));
-            final double attackBoost = coalesce(Hero.ATTACK_BOOST.get(hero.getCategory()));
-            player1Boost.put(hero.getCategory(), oldValue + attackBoost);
-        }
+        Map<Army.Category, Integer> player1AttackerCount = this.getArmyCountPerCategory();
+        Map<Hero.Category, Double> player1Boost = this.getArmyBoostPerCategory();
 
         // Get Player 2 stats as victim
-        Map<Army.Category, Integer> player2Count = new HashMap<>();
-        for (Army army : player2.vArmy) {
-            final int oldValue = coalesce(player2Count.get(army.getCategory()));
-            player2Count.put(army.getCategory(), oldValue + 1);
-        }
-        final Map<Army.Category, Integer> player2CountBeforeBattle = new HashMap<>(player2Count);
+        Map<Army.Category, Integer> player2Count = player2.getArmyCountPerCategory();
+        Map<Army.Category, Integer> player2CountUnmodified = new HashMap<>(player2Count);
 
         // The attack begins
+        _battle(player1AttackerCount, player1Boost, player2Count);
+
+        // Player 2 attacks Player 1
+
+        // Get Player 2 stats as attacker
+        Map<Army.Category, Integer> player2AttackerCount = player2.getArmyCountPerCategory();
+        Map<Hero.Category, Double> player2Boost = player2.getArmyBoostPerCategory();
+
+        // Get Player 1 stats as victim
+        Map<Army.Category, Integer> player1Count = this.getArmyCountPerCategory();
+        Map<Army.Category, Integer> player1CountUnmodified = new HashMap<>(player1Count);
+
+        // The attack begins
+        _battle(player2AttackerCount, player2Boost, player1Count);
+
+        // Update Player 1 vArmy
+        for (Army.Category category: Army.Category.values()) {
+            if (player1Count.containsKey(category) && player1CountUnmodified.containsKey(category)) {
+                this.buryArmy(category, coalesce(player1CountUnmodified.get(category)) - coalesce(player1Count.get(category)));
+            }
+        }
+
+        // Update Player 2 vArmy
+        for (Army.Category category: Army.Category.values()) {
+            if (player2Count.containsKey(category) && player2CountUnmodified.containsKey(category)) {
+                this.buryArmy(category, coalesce(player2CountUnmodified.get(category)) - coalesce(player2Count.get(category)));
+            }
+        }
+
+        return player2;
+    }
+
+    private Map<Army.Category, Integer> getArmyCountPerCategory() {
+        Map<Army.Category, Integer> armyCountPerCategory = new HashMap<>();
+        for (Army army : this.vArmy) {
+            final int oldValue = coalesce(armyCountPerCategory.get(army.getCategory()));
+            armyCountPerCategory.put(army.getCategory(), oldValue + 1);
+        }
+        return armyCountPerCategory;
+    }
+
+    private Map<Army.Category, Double> getArmyBoostPerCategory() {
+        Map<Hero.Category, Double> armyBoostPerCategory = new HashMap<>();
+        for (Hero hero : this.vHero) {
+            final double oldValue = coalesce(armyBoostPerCategory.get(hero.getCategory()));
+            final double attackBoost = coalesce(Hero.ATTACK_BOOST.get(hero.getCategory()));
+            armyBoostPerCategory.put(hero.getCategory(), oldValue + attackBoost);
+        }
+        return armyBoostPerCategory;
+    }
+
+    private void _battle(Map<Army.Category, Integer> attackerCount, Map<Army.Category, Double> attackerBoost, Map<Army.Category, Integer> victimCount) {
         for (Army.Category victimCategory : Army.Category.values()) {
-            if (player2Count.containsKey(victimCategory)){
-                final int currentVictimCategoryCount = coalesce(player2Count.get(victimCategory));
+            if (victimCount.containsKey(victimCategory)) {
+                final int currentVictimCategoryCount = coalesce(victimCount.get(victimCategory));
                 if (currentVictimCategoryCount > 0) {
                     for (Army.Category attackerCategory : Army.Category.values()) {
-                        if (player1AttackerCount.containsKey(attackerCategory)) {
-                            final int count = coalesce(player1AttackerCount.get(attackerCategory));
+                        if (attackerCount.containsKey(attackerCategory)) {
+                            final int count = coalesce(attackerCount.get(attackerCategory));
                             if (count > 0) {
-                                final double boost = coalesce(player1Boost.get(attackerCategory));
+                                final double boost = coalesce(attackerBoost.get(attackerCategory));
                                 final double compatibility = coalesce(Objects.requireNonNull(Army.KILL_COMPATIBILITY.get(attackerCategory)).get(victimCategory));
                                 final double multiplier = (1 + boost) * compatibility;
                                 final double currentDamage = count * multiplier;
 
                                 if (currentDamage > currentVictimCategoryCount) {
                                     Integer attackerThatHasNotAttacked = (int) ((currentDamage - currentVictimCategoryCount) / multiplier);
-                                    player2Count.put(victimCategory, 0);
-                                    player1AttackerCount.put(attackerCategory, attackerThatHasNotAttacked);
+                                    victimCount.put(victimCategory, 0);
+                                    attackerCount.put(attackerCategory, attackerThatHasNotAttacked);
                                 } else if (currentVictimCategoryCount > currentDamage) {
                                     Integer victimStillAlive = (int) (currentVictimCategoryCount - currentDamage);
-                                    player2Count.put(victimCategory, victimStillAlive);
-                                    player1AttackerCount.put(attackerCategory, 0);
+                                    victimCount.put(victimCategory, victimStillAlive);
+                                    attackerCount.put(attackerCategory, 0);
                                 } else {
-                                    player2Count.put(victimCategory, 0);
-                                    player1AttackerCount.put(attackerCategory, 0);
+                                    victimCount.put(victimCategory, 0);
+                                    attackerCount.put(attackerCategory, 0);
                                 }
                             }
                         }
@@ -80,71 +118,17 @@ public class Player {
                 }
             }
         }
+    }
 
-        // Player 2 attacks Player 1
-
-        // Get Player 2 stats as attacker
-        Map<Army.Category, Integer> player2AttackerCount = new HashMap<>();
-        for (Army army : player2.vArmy) {
-            int oldValue = coalesce(player2AttackerCount.get(army.getCategory()));
-            player2AttackerCount.put(army.getCategory(), oldValue + 1);
-        }
-
-        Map<Hero.Category, Double> player2Boost = new HashMap<>();
-        for (Hero hero : player2.vHero) {
-            double oldValue = coalesce(player2Boost.get(hero.getCategory()));
-            double attackBoost = coalesce(Hero.ATTACK_BOOST.get(hero.getCategory()));
-            player2Boost.put(hero.getCategory(), oldValue + attackBoost);
-        }
-
-        // Get Player 1 stats as victim
-        Map<Army.Category, Integer> player1Count = new HashMap<>();
-        for (Army army : this.vArmy) {
-            Integer oldValue = player1Count.get(army.getCategory());
-            player1Count.put(army.getCategory(), (oldValue == null ? 0 : oldValue) + 1);
-        }
-        final Map<Army.Category, Integer> player1CountBeforeBattle = new HashMap<>(player1Count);
-
-        // The attack begins
-        for (Army.Category victimCategory : Army.Category.values()) {
-            if (player1Count.containsKey(victimCategory)){
-                int currentVictimCategoryCount = coalesce(player1Count.get(victimCategory));
-                if (currentVictimCategoryCount > 0) {
-                    for (Army.Category attackerCategory : Army.Category.values()) {
-                        if (player2AttackerCount.containsKey(attackerCategory)) {
-                            int count = coalesce(player2AttackerCount.get(attackerCategory));
-                            if (count > 0) {
-                                double boost = coalesce(player2Boost.get(attackerCategory));
-                                double compatibility = coalesce(Objects.requireNonNull(Army.KILL_COMPATIBILITY.get(attackerCategory)).get(victimCategory));
-                                double multiplier = (1 + boost) * compatibility;
-                                double currentDamage = count * multiplier;
-
-                                if (currentDamage > currentVictimCategoryCount) {
-                                    Integer attackerThatHasNotAttacked = (int) ((currentDamage - currentVictimCategoryCount) / multiplier);
-                                    player1Count.put(victimCategory, 0);
-                                    player2AttackerCount.put(attackerCategory, attackerThatHasNotAttacked);
-                                } else if (currentVictimCategoryCount > currentDamage) {
-                                    Integer victimStillAlive = (int) (currentVictimCategoryCount - currentDamage);
-                                    player1Count.put(victimCategory, victimStillAlive);
-                                    player2AttackerCount.put(attackerCategory, 0);
-                                } else {
-                                    player1Count.put(victimCategory, 0);
-                                    player2AttackerCount.put(attackerCategory, 0);
-                                }
-                            }
-                        }
-                    }
-                }
+    private void buryArmy(Army.Category category, int deathToll) {
+        int length = this.vArmy.size();
+        for (int i = 0; i < length; i++) {
+            if (this.vArmy.get(i).getCategory().equals(category)) {
+                this.vArmy.remove(this.vArmy.get(i));
+                length--;
             }
+            if (deathToll == 0) break;
         }
-
-        // check stats
-        player1CountBeforeBattle.values();
-        player1Count.values();
-        player2CountBeforeBattle.values();
-        player2Count.values();
-
-        return this;
     }
 
     private int coalesce(Integer i) {
