@@ -6,13 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Hero {
-    public enum Category {
-        Infantry,
-        Cavalry,
-        Archer,
-        Catapult,
-    }
+public class Hero extends Army {
 
     public static Map<Category, Double> ATTACK_BOOST;
     static {
@@ -24,16 +18,11 @@ public class Hero {
         ATTACK_BOOST = Collections.unmodifiableMap(temp);
     }
 
-    private Category category;
     private int level;
 
     public Hero(Category category, int level) {
-        this.category = category;
+        super(category);
         this.level = level;
-    }
-
-    public Category getCategory() {
-        return this.category;
     }
 
     public int getLevel() {

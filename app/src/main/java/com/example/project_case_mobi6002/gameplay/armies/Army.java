@@ -3,7 +3,6 @@ package com.example.project_case_mobi6002.gameplay.armies;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 public abstract class Army {
     public enum Category {
@@ -57,10 +56,6 @@ public abstract class Army {
 
     public Category getCategory() {
         return this.category;
-    }
-
-    public void dead(Vector<Army> vArmies) {
-        vArmies.remove(this);
     }
 
 }
