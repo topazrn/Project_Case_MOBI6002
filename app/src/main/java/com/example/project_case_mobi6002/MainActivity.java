@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Button;
 
+import com.example.project_case_mobi6002.gameplay.BattleWorker;
 import com.example.project_case_mobi6002.gameplay.Player;
 import com.example.project_case_mobi6002.gameplay.armies.ArcherArmy;
 import com.example.project_case_mobi6002.gameplay.armies.Army;
@@ -64,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
         // #endregion
 
+        final Button button = findViewById(R.id.button);
+        button.setOnClickListener(view -> {
+            BattleWorker battleWorker = new BattleWorker(activity, player1, player2);
+            new Thread(battleWorker).start();
+        });
 
     }
 }
