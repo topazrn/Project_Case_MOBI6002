@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         final Button button = findViewById(R.id.button);
         button.setOnClickListener(view -> {
             BattleWorker battleWorker = new BattleWorker(activity, player1, player2);
-            new Thread(battleWorker).start();
+            battleWorker.run();
         });
 
     }

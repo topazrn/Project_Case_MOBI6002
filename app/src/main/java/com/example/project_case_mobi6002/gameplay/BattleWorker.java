@@ -1,9 +1,11 @@
 package com.example.project_case_mobi6002.gameplay;
 
 import android.app.Activity;
-import android.widget.Toast;
+import android.widget.TextView;
 
-public class BattleWorker implements Runnable {
+import com.example.project_case_mobi6002.R;
+
+public class BattleWorker {
     private final Player player1;
     private Player player2;
     private final Activity activity;
@@ -14,9 +16,9 @@ public class BattleWorker implements Runnable {
         this.player2 = player2;
     }
 
-    @Override
     public void run() {
         this.player2 = this.player1.battle(this.player2);
-//        Toast.makeText(activity.getApplicationContext(), "The Winner is... " + winner.getName() + "!!", Toast.LENGTH_LONG).show();
+        TextView winner = activity.findViewById(R.id.textViewWinner);
+        winner.append(this.player2.getName());
     }
 }
