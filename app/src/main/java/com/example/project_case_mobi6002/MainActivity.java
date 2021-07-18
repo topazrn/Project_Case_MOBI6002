@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         int MAX_HERO = 5;
         int MIN_HERO = 1;
         int MAX_ARMY = 100000;
-        int MIN_ARMY = 5000;
+        int MIN_ARMY = 90000;
 
         // #region init
 
