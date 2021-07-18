@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Player player1 = new Player("Radiant", player1Heroes, player1Armies);
+        player1.render1(activity);
 
         // Player 2 init
         Vector<Hero> player2Heroes = new Vector<>();

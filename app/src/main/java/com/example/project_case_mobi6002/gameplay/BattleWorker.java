@@ -18,7 +18,5 @@ public class BattleWorker {
 
     public void run() {
         this.player2 = this.player1.battle(this.player2);
-        TextView winner = activity.findViewById(R.id.textViewWinner);
-        winner.append(this.player2.getName());
     }
 }

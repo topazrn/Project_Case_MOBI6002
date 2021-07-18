@@ -1,5 +1,9 @@
 package com.example.project_case_mobi6002.gameplay;
 
+import android.app.Activity;
+import android.widget.TextView;
+
+import com.example.project_case_mobi6002.R;
 import com.example.project_case_mobi6002.gameplay.armies.Army;
 import com.example.project_case_mobi6002.gameplay.heroes.Hero;
 
@@ -17,6 +21,58 @@ public class Player {
         this.name = name;
         this.vHero = new Vector<>(vHero);
         this.vArmy = new Vector<>(vArmy);
+    }
+
+    public void render1(Activity activity) {
+        // Render name
+        TextView name = activity.findViewById(R.id.textViewPlayer1Name);
+        name.setText(this.name);
+
+        // Render Hero count per category
+        Map<Army.Category, Integer> heroCountPerCategory = this.getHeroCountPerCategory();
+        if (heroCountPerCategory.containsKey(Army.Category.Infantry)) {
+            TextView infantryHeroCount = activity.findViewById(R.id.textViewPlayer1InfantryHeroCount);
+            int value = coalesce(heroCountPerCategory.get(Army.Category.Infantry));
+            infantryHeroCount.setText(String.valueOf(value));
+        }
+        if (heroCountPerCategory.containsKey(Army.Category.Cavalry)) {
+            TextView cavalryHeroCount = activity.findViewById(R.id.textViewPlayer1CavalryHeroCount);
+            int value = coalesce(heroCountPerCategory.get(Army.Category.Cavalry));
+            cavalryHeroCount.setText(String.valueOf(value));
+        }
+        if (heroCountPerCategory.containsKey(Army.Category.Archer)) {
+            TextView archerHeroCount = activity.findViewById(R.id.textViewPlayer1ArcherHeroCount);
+            int value = coalesce(heroCountPerCategory.get(Army.Category.Archer));
+            archerHeroCount.setText(String.valueOf(value));
+        }
+        if (heroCountPerCategory.containsKey(Army.Category.Catapult)) {
+            TextView catapultHeroCount = activity.findViewById(R.id.textViewPlayer1CatapultHeroCount);
+            int value = coalesce(heroCountPerCategory.get(Army.Category.Catapult));
+            catapultHeroCount.setText(String.valueOf(value));
+        }
+
+        // Render Army count per category
+        Map<Army.Category, Integer> armyCountPerCategory = this.getArmyCountPerCategory();
+        if (armyCountPerCategory.containsKey(Army.Category.Infantry)) {
+            TextView infantryArmyCount = activity.findViewById(R.id.textViewPlayer1InfantryArmyCount);
+            int value = coalesce(armyCountPerCategory.get(Army.Category.Infantry));
+            infantryArmyCount.setText(String.valueOf(value));
+        }
+        if (armyCountPerCategory.containsKey(Army.Category.Cavalry)) {
+            TextView cavalryArmyCount = activity.findViewById(R.id.textViewPlayer1CavalryArmyCount);
+            int value = coalesce(armyCountPerCategory.get(Army.Category.Cavalry));
+            cavalryArmyCount.setText(String.valueOf(value));
+        }
+        if (armyCountPerCategory.containsKey(Army.Category.Archer)) {
+            TextView archerArmyCount = activity.findViewById(R.id.textViewPlayer1ArcherArmyCount);
+            int value = coalesce(armyCountPerCategory.get(Army.Category.Archer));
+            archerArmyCount.setText(String.valueOf(value));
+        }
+        if (armyCountPerCategory.containsKey(Army.Category.Catapult)) {
+            TextView catapultArmyCount = activity.findViewById(R.id.textViewPlayer1CatapultArmyCount);
+            int value = coalesce(armyCountPerCategory.get(Army.Category.Catapult));
+            catapultArmyCount.setText(String.valueOf(value));
+        }
     }
 
     public String getName() {
@@ -51,14 +107,14 @@ public class Player {
         _battle(player2AttackerCount, player2Boost, player1Count);
 
         // Update Player 1 vArmy
-        for (Army.Category category: Army.Category.values()) {
+        for (Army.Category category : Army.Category.values()) {
             if (player1Count.containsKey(category) && player1CountUnmodified.containsKey(category)) {
                 this.buryArmy(category, coalesce(player1CountUnmodified.get(category)) - coalesce(player1Count.get(category)));
             }
         }
 
         // Update Player 2 vArmy
-        for (Army.Category category: Army.Category.values()) {
+        for (Army.Category category : Army.Category.values()) {
             if (player2Count.containsKey(category) && player2CountUnmodified.containsKey(category)) {
                 this.buryArmy(category, coalesce(player2CountUnmodified.get(category)) - coalesce(player2Count.get(category)));
             }
@@ -74,6 +130,15 @@ public class Player {
             armyCountPerCategory.put(army.getCategory(), oldValue + 1);
         }
         return armyCountPerCategory;
+    }
+
+    private Map<Army.Category, Integer> getHeroCountPerCategory() {
+        Map<Army.Category, Integer> heroCountPerCategory = new HashMap<>();
+        for (Hero hero : this.vHero) {
+            final int oldValue = coalesce(heroCountPerCategory.get(hero.getCategory()));
+            heroCountPerCategory.put(hero.getCategory(), oldValue + 1);
+        }
+        return heroCountPerCategory;
     }
 
     private Map<Army.Category, Double> getArmyBoostPerCategory() {

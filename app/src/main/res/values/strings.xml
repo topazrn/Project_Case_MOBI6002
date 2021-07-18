@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Project_Case_MOBI6002</string>
     <string name="battle">Battle</string>
+    <string name="hero">Hero</string>
+    <string name="army">Army</string>
+    <string name="army_count_placeholder">0</string>
+    <string name="its_time_to_show_your_might">It\'s time to show your might!!.</string>
+    <string name="player_name_placeholder">Player Name</string>
+    <string name="hero_count_placeholder">0</string>
+    <string name="picture_of_war">Picture of war</string>
+    <string name="picture_of_vs">Picture of VS</string>
+    <string name="picture_of_infantry">Picture of Infantry</string>
+    <string name="picture_of_cavalry">Picture of Cavalry</string>
+    <string name="picture_of_archer">Picture of Archer</string>
+    <string name="picture_of_catapult">Picture of Catapult</string>
 </resources>
