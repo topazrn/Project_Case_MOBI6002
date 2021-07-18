@@ -14,4 +14,7 @@
     <string name="picture_of_archer">Picture of Archer</string>
     <string name="picture_of_catapult">Picture of Catapult</string>
     <string name="picture_of_winner">Picture of Winner</string>
+    <string name="case_1">Current case: Cavalry vs Archer</string>
+    <string name="switch_between_cases">Switch between cases</string>
+    <string name="case_2">Current case: Mixed Armies vs Infantry</string>
 </resources>

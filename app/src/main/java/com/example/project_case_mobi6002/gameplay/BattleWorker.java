@@ -102,26 +102,6 @@ public class BattleWorker {
         animation.setDuration(1000);
         animation.setInterpolator(new AccelerateDecelerateInterpolator());
         animation.setFillAfter(true);
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                showBattleSummary();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
         imageViewWinner.startAnimation(animation);
-    }
-
-    private void showBattleSummary() {
-
     }
 }
