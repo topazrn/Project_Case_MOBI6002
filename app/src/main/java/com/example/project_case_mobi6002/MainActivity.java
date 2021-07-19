@@ -47,10 +47,11 @@ public class MainActivity extends AppCompatActivity {
             init(isChecked);
         });
 
+
         button.setOnClickListener(view -> {
             button.setEnabled(false);
             BattleWorker battleWorker = new BattleWorker(this, this.player1, this.player2);
-            battleWorker.run();
+            new Thread(battleWorker).start();
         });
     }
 
