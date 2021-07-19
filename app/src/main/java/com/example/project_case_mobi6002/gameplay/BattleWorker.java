@@ -27,7 +27,7 @@ public class BattleWorker implements Runnable {
     @Override
     public void run() {
         activity.runOnUiThread(() -> {
-            SwitchMaterial switchMaterial = activity.findViewById(R.id.switchKasus);
+            SwitchMaterial switchMaterial = activity.findViewById(R.id.switchMaterial);
             switchMaterial.setEnabled(false);
 
             ProgressBar progressBar = activity.findViewById(R.id.progressBar);
@@ -46,7 +46,7 @@ public class BattleWorker implements Runnable {
 
     private void showWinner() {
         activity.runOnUiThread(() -> {
-            SwitchMaterial switchMaterial = activity.findViewById(R.id.switchKasus);
+            SwitchMaterial switchMaterial = activity.findViewById(R.id.switchMaterial);
             switchMaterial.setEnabled(true);
 
             ProgressBar progressBar = activity.findViewById(R.id.progressBar);

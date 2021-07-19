@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SwitchMaterial switchMaterial = findViewById(R.id.switchKasus);
+        SwitchMaterial switchMaterial = findViewById(R.id.switchMaterial);
         button = findViewById(R.id.button);
 
         init(switchMaterial.isChecked());
