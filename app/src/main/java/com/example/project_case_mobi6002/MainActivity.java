@@ -3,7 +3,11 @@ package com.example.project_case_mobi6002;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.project_case_mobi6002.gameplay.BattleWorker;
@@ -27,24 +31,47 @@ public class MainActivity extends AppCompatActivity {
 
     private final Random random = new Random();
     private Player player1, player2;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SwitchMaterial switchMaterial = findViewById(R.id.switchKasus);
+        button = findViewById(R.id.button);
 
-        final SwitchMaterial switchKasus = findViewById(R.id.switchKasus);
-        switchKasus.setOnClickListener(view -> init(switchKasus.isChecked()));
+        init(switchMaterial.isChecked());
 
-        init(switchKasus.isChecked());
+        switchMaterial.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            refreshState();
+            init(isChecked);
+        });
 
-        final Button button = findViewById(R.id.button);
         button.setOnClickListener(view -> {
             button.setEnabled(false);
             BattleWorker battleWorker = new BattleWorker(this, this.player1, this.player2);
             battleWorker.run();
         });
+    }
 
+    private void refreshState() {
+        button.setEnabled(true);
+        moveWinnerImageToCenterAndHide();
+    }
+
+    private void moveWinnerImageToCenterAndHide() {
+        ImageView imageViewWinner = findViewById(R.id.imageViewWinner);
+        if (imageViewWinner.getVisibility() == View.VISIBLE) {
+            imageViewWinner.setVisibility(View.INVISIBLE);
+            Animation animation;
+            animation = new TranslateAnimation(
+                    Animation.RELATIVE_TO_PARENT, 0.0f,
+                    Animation.RELATIVE_TO_PARENT, 0.0f,
+                    Animation.RELATIVE_TO_PARENT, 0.0f,
+                    Animation.RELATIVE_TO_PARENT, 0.0f);
+            animation.setDuration(0);
+            imageViewWinner.startAnimation(animation);
+        }
     }
 
     private void init(boolean isCase2) {
@@ -74,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             this.player1 = new Player("Cavalry", player1Heroes, player1Armies);
-            this.player1.renderLeft(this);
 
             // Player 2 init
             Vector<Hero> player2Heroes = new Vector<>();
@@ -90,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             this.player2 = new Player("Archer", player2Heroes, player2Armies);
-            this.player2.renderRight(this);
         } else {
             // Case 2: Mixed Armies vs Infantry
             textViewCurrentCase.setText(R.string.case_2);
@@ -139,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             this.player1 = new Player("Mixed Armies", player1Heroes, player1Armies);
-            this.player1.renderLeft(this);
 
             // Player 2 init
             Vector<Hero> player2Heroes = new Vector<>();
@@ -155,7 +179,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             this.player2 = new Player("Infantry", player2Heroes, player2Armies);
-            this.player2.renderRight(this);
         }
+        this.player1.renderLeft(this);
+        this.player2.renderRight(this);
     }
 }
