@@ -57,8 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@+id/imageViewVS"
+        app:layout_constraintHorizontal_bias="0.39"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPlayer1Name">
+        app:layout_constraintTop_toBottomOf="@+id/buttonPlayer2Castle">
 
         <TextView
             android:id="@+id/textViewPlayer1Hero"
@@ -219,21 +220,19 @@
         android:id="@+id/textViewPlayer2Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="@string/player_name_placeholder"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewVS"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewWar" />
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer1Name" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/player2"
         android:layout_width="108dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewVS"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPlayer2Name">
+        app:layout_constraintTop_toTopOf="@+id/imageViewVS">
 
         <TextView
             android:id="@+id/textView22"
@@ -394,11 +393,10 @@
         android:id="@+id/imageViewVS"
         android:layout_width="113dp"
         android:layout_height="92dp"
-        android:layout_marginTop="54dp"
         android:contentDescription="@string/picture_of_vs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewWar"
+        app:layout_constraintTop_toTopOf="@+id/player1"
         app:srcCompat="@drawable/vs" />
 
     <ImageView
@@ -445,5 +443,28 @@
         app:layout_constraintEnd_toEndOf="@+id/imageViewWinner"
         app:layout_constraintStart_toStartOf="@+id/imageViewWinner"
         app:layout_constraintTop_toTopOf="@+id/imageViewWinner" />
+
+    <Button
+        android:id="@+id/buttonPlayer2Castle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/castle_name"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/textViewPlayer2Name"
+        app:layout_constraintStart_toStartOf="@+id/textViewPlayer2Name"
+        app:layout_constraintTop_toTopOf="@+id/buttonPlayer1Castle" />
+
+    <Button
+        android:id="@+id/buttonPlayer1Castle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/castle_name"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/textViewPlayer1Name"
+        app:layout_constraintStart_toStartOf="@+id/textViewPlayer1Name"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPlayer1Name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

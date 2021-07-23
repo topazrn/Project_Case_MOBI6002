@@ -1,6 +1,7 @@
 package com.example.project_case_mobi6002.gameplay;
 
 import android.app.Activity;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.project_case_mobi6002.R;
@@ -15,7 +16,7 @@ import java.util.Vector;
 
 public class Player {
     private final String name;
-    private Castle castle;
+    private final Castle castle;
     private final Vector<Hero> vHero;
     private final Vector<Army> vArmy;
 
@@ -30,6 +31,10 @@ public class Player {
         // Render name
         TextView name = activity.findViewById(R.id.textViewPlayer1Name);
         name.setText(this.name);
+
+        // Render Castle
+        Button castle = activity.findViewById(R.id.buttonPlayer1Castle);
+        castle.setText(activity.getString(R.string.castle_name, this.castle.getSkin().toString()));
 
         // Render Hero count per category
         Map<Army.Category, Integer> heroCountPerCategory = this.getHeroCountPerCategory();
@@ -106,6 +111,10 @@ public class Player {
         // Render name
         TextView name = activity.findViewById(R.id.textViewPlayer2Name);
         name.setText(this.name);
+
+        // Render Castle
+        Button castle = activity.findViewById(R.id.buttonPlayer2Castle);
+        castle.setText(activity.getString(R.string.castle_name, this.castle.getSkin().toString()));
 
         // Render Hero count per category
         Map<Army.Category, Integer> heroCountPerCategory = this.getHeroCountPerCategory();
