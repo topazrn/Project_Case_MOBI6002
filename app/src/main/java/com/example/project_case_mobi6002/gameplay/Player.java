@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.example.project_case_mobi6002.R;
 import com.example.project_case_mobi6002.gameplay.armies.Army;
+import com.example.project_case_mobi6002.gameplay.castles.Castle;
 import com.example.project_case_mobi6002.gameplay.heroes.Hero;
 
 import java.util.HashMap;
@@ -14,11 +15,13 @@ import java.util.Vector;
 
 public class Player {
     private final String name;
+    private Castle castle;
     private final Vector<Hero> vHero;
     private final Vector<Army> vArmy;
 
-    public Player(String name, Vector<Hero> vHero, Vector<Army> vArmy) {
+    public Player(String name, Castle castle, Vector<Hero> vHero, Vector<Army> vArmy) {
         this.name = name;
+        this.castle = castle;
         this.vHero = new Vector<>(vHero);
         this.vArmy = new Vector<>(vArmy);
     }

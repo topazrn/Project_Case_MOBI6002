@@ -17,6 +17,11 @@ import com.example.project_case_mobi6002.gameplay.armies.Army;
 import com.example.project_case_mobi6002.gameplay.armies.CatapultArmy;
 import com.example.project_case_mobi6002.gameplay.armies.CavalryArmy;
 import com.example.project_case_mobi6002.gameplay.armies.InfantryArmy;
+import com.example.project_case_mobi6002.gameplay.castles.Castle;
+import com.example.project_case_mobi6002.gameplay.castles.HorseCastle;
+import com.example.project_case_mobi6002.gameplay.castles.SteelCastle;
+import com.example.project_case_mobi6002.gameplay.castles.StoneCastle;
+import com.example.project_case_mobi6002.gameplay.castles.WoodCastle;
 import com.example.project_case_mobi6002.gameplay.heroes.ArcherHero;
 import com.example.project_case_mobi6002.gameplay.heroes.CatapultHero;
 import com.example.project_case_mobi6002.gameplay.heroes.CavalryHero;
@@ -89,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
             textViewCurrentCase.setText(R.string.case_1);
 
             // Player 1 init
+            Castle player1Castle = new HorseCastle();
+
             Vector<Hero> player1Heroes = new Vector<>();
             int player1HeroesCount = random.nextInt(MAX_HERO - MIN_HERO) + MIN_HERO;
             for (int i = 0; i < player1HeroesCount; i++) {
@@ -101,9 +108,11 @@ public class MainActivity extends AppCompatActivity {
                 player1Armies.add(new CavalryArmy());
             }
 
-            this.player1 = new Player("Cavalry", player1Heroes, player1Armies);
+            this.player1 = new Player("Cavalry", player1Castle, player1Heroes, player1Armies);
 
             // Player 2 init
+            Castle player2Castle = new WoodCastle();
+
             Vector<Hero> player2Heroes = new Vector<>();
             int player2HeroesCount = random.nextInt(MAX_HERO - MIN_HERO) + MIN_HERO;
             for (int i = 0; i < player2HeroesCount; i++) {
@@ -116,12 +125,30 @@ public class MainActivity extends AppCompatActivity {
                 player2Armies.add(new ArcherArmy());
             }
 
-            this.player2 = new Player("Archer", player2Heroes, player2Armies);
+            this.player2 = new Player("Archer", player2Castle, player2Heroes, player2Armies);
         } else {
             // Case 2: Mixed Armies vs Infantry
             textViewCurrentCase.setText(R.string.case_2);
 
             // Player 1 init
+            Castle player1Castle;
+            Castle.Skin[] skins = Castle.Skin.values();
+            Castle.Skin randomSkin = skins[random.nextInt(skins.length)];
+            switch (randomSkin) {
+                case Steel:
+                    player1Castle = new SteelCastle();
+                    break;
+                case Horse:
+                    player1Castle = new HorseCastle();
+                    break;
+                case Wood:
+                    player1Castle = new WoodCastle();
+                    break;
+                default:
+                    player1Castle = new StoneCastle();
+                    break;
+            }
+
             Vector<Hero> player1Heroes = new Vector<>();
             int player1HeroesCount = random.nextInt(MAX_HERO - MIN_HERO) + MIN_HERO;
             for (int i = 0; i < player1HeroesCount; i++) {
@@ -164,9 +191,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            this.player1 = new Player("Mixed Armies", player1Heroes, player1Armies);
+            this.player1 = new Player("Mixed Armies", player1Castle, player1Heroes, player1Armies);
 
             // Player 2 init
+            Castle player2Castle = new SteelCastle();
+
             Vector<Hero> player2Heroes = new Vector<>();
             int player2HeroesCount = random.nextInt(MAX_HERO - MIN_HERO) + MIN_HERO;
             for (int i = 0; i < player2HeroesCount; i++) {
@@ -179,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                 player2Armies.add(new InfantryArmy());
             }
 
-            this.player2 = new Player("Infantry", player2Heroes, player2Armies);
+            this.player2 = new Player("Infantry", player2Castle, player2Heroes, player2Armies);
         }
         this.player1.renderLeft(this);
         this.player2.renderRight(this);
