@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SwitchMaterial switchMaterial = findViewById(R.id.switchMaterial);
         button = findViewById(R.id.button);
+        Button buttonPlayer1Castle = findViewById(R.id.buttonPlayer1Castle);
+        Button buttonPlayer2Castle = findViewById(R.id.buttonPlayer2Castle);
 
         init(switchMaterial.isChecked());
 
@@ -52,6 +54,15 @@ public class MainActivity extends AppCompatActivity {
             init(isChecked);
         });
 
+        buttonPlayer1Castle.setOnClickListener(view -> {
+            player1.changeCastle();
+            player1.renderLeft(this);
+        });
+
+        buttonPlayer2Castle.setOnClickListener(view -> {
+            player2.changeCastle();
+            player2.renderRight(this);
+        });
 
         button.setOnClickListener(view -> {
             button.setEnabled(false);
